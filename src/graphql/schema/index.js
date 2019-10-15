@@ -31,16 +31,18 @@ fs.readdirSync(__dirname)
  .filter(dir => (dir.indexOf('.') < 0))
  .forEach((dir) => {
    const tmp = require(path.join(__dirname, dir)).default; // eslint-disable-line
-   resolvers = merge(resolvers, tmp.queryResolvers);   
+   resolvers = merge(resolvers, tmp.queryResolvers);      
+   resolvers = merge(resolvers, tmp.mutationResolvers);      
    typeDefs.push(tmp.type);
    typeDefs.push(tmp.query);
+   typeDefs.push(tmp.mutationTypes);   
  });
 
 const schema = new ApolloServer({
   typeDefs,
   resolvers,
   playground:{
-    endpoint:'`http://localhost:5000/graphql`',
+    endpoint:'/graphql',
     settings:{
       'editor.theme':'light'
     }
